@@ -1,16 +1,28 @@
-$c-primary: #0b59a4;
-$c-gray: #e9eae9;
-$c-white: #fff;
-$c-green: #48cfcb;
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background: $c-gray;
 }
 
 body {
   font-family: "Lato";
 }
 
+span,
+a,
+h1,
+h2,
+h3 {
+  color: #000;
+}
+
+button {
+  background: #8d4fab !important;
+  border: 1px solid #fff !important;
+  border-radius: 0.2rem;
+  color: #fff !important;
+  cursor: pointer;
+  padding: 0.5rem;
+  font-size: 0.6rem !important;
+  text-transform: uppercase;
+}
