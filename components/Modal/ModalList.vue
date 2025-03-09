@@ -6,7 +6,7 @@
         <div class="list">
           <div class="detail">
             <span class="" v-for="(item, index) in list" v-bind:key="index"
-              >{{ index + 1 }}. {{ item.email }}</span
+              >{{ index + 1 }}. {{ item.name }}</span
             >
           </div>
         </div>

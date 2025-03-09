@@ -10,9 +10,9 @@
         <UInput class="input" type="text" placeholder="Search" v-model="search" />
         <font-awesome icon="magnifying-glass" />
       </div>
-      <a v-if="!userDetail.email" @click="handleLogin()">Login</a>
+      <a v-if="!userDetail.name" @click="handleLogin()">Login</a>
       <template v-else>
-        <a class="checkout"> <font-awesome icon="user" /> {{ userDetail.email }} </a>
+        <a class="checkout"> <font-awesome icon="user" /> {{ userDetail.name }} </a>
         <font-awesome icon="right-from-bracket" @click="handleLogout()" />
       </template>
       <div class="lang">
@@ -25,9 +25,9 @@
       </div>
     </div>
     <nav class="navbar">
-      <a v-if="!userDetail.email" @click="handleLogin()">Login</a>
+      <a v-if="!userDetail.name" @click="handleLogin()">Login</a>
       <template v-else>
-        <a class="checkout"> <font-awesome icon="user" /> {{ userDetail.email }} </a>
+        <a class="checkout"> <font-awesome icon="user" /> {{ userDetail.name }} </a>
         <a @click="handleLogout()">Logout</a>
       </template>
       <div class="lang">

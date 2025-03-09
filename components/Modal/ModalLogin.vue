@@ -12,9 +12,9 @@
         <span>or use your account</span>
         <UInput
           class="input"
-          type="email"
-          placeholder="Email"
-          v-model="form.email"
+          type="text"
+          placeholder="Username"
+          v-model="form.name"
         />
         <UInput
           class="input"

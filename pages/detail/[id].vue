@@ -27,7 +27,7 @@
             <UButton v-if="activityDetail.flag_random" @click="viewList()">View announcement</UButton>
             <template v-if="userDetail.role && userDetail.role == 'admin'">
               <UButton @click="random()">Random</UButton>
-              <UButton>Export</UButton>
+              <UButton v-if="activityDetail.flag_random" @click="exportExcel()">Export</UButton>
             </template>
           </div>
         </div>
@@ -41,6 +41,8 @@
 </template>
 
 <script>
+import { handleExcel } from '@/utils/excel';
+
 export default {
   name: "detail",
   data() {
@@ -70,9 +72,12 @@ export default {
     }, 500);
   },
   methods: {
+    async exportExcel() {
+      await handleExcel(this.list);
+    },
     setUserDetail() {
       this.userDetail = JSON.parse(localStorage.getItem("userDetail"))
-      if(!this.userDetail.email){
+      if(!this.userDetail.name){
         this.$router.push({ path: `/` })
       }
     },
