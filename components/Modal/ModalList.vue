@@ -17,7 +17,7 @@
 
 <script>
 export default {
-  name: "ModalLogin",
+  name: "ModalList",
   data() {
     return {
       isOpen: false,

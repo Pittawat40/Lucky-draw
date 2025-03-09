@@ -10,7 +10,11 @@
         <UInput class="input" type="text" placeholder="Search" />
         <font-awesome icon="magnifying-glass" />
       </div>
-      <a @click="openModal()">Login</a>
+      <a v-if="!userDetail.email" @click="handleLogin()">Login</a>
+      <template v-else>
+        <a class="checkout"> <font-awesome icon="user" /> {{ userDetail.email }} </a>
+        <font-awesome icon="right-from-bracket" @click="handleLogout()" />
+      </template>
       <div class="lang">
         <a href="">
           <img src="@/assets/images/thailand.svg" />
@@ -21,8 +25,11 @@
       </div>
     </div>
     <nav class="navbar">
-      <a href="#"> <font-awesome icon="user" /> Name </a>
-      <a href="#">Logout</a>
+      <a v-if="!userDetail.email" @click="handleLogin()">Login</a>
+      <template v-else>
+        <a class="checkout"> <font-awesome icon="user" /> {{ userDetail.email }} </a>
+        <a @click="handleLogout()">Logout</a>
+      </template>
       <div class="lang">
         <a href="">
           <img src="@/assets/images/thailand.svg" />
@@ -33,6 +40,7 @@
       </div>
     </nav>
     <ModalLogin ref="ModalLogin" />
+    <LoadingAlpha ref="LoadingAlpha" />
   </div>
 </template>
 
@@ -42,14 +50,48 @@ export default {
   data() {
     return {
       isOpen: false,
+      timer: null,
+      userDetail: {}
     };
   },
+  watch: {
+    "$store.state.userDetail": function() {
+      this.setUserDetail();
+      const navbar = document.querySelector(".navbar");
+      navbar.classList.remove("active");
+    }
+  },
   mounted() {
+    this.setUserDetail();
     this.toggleMenu();
   },
   methods: {
-    openModal() {
+    setUserDetail() {
+      this.userDetail = JSON.parse(localStorage.getItem("userDetail"))
+    },
+    handleLogin() {
+      this.$refs.ModalLogin.resetForm();
       this.$refs.ModalLogin.show();
+    },
+    async handleLogout() {
+      await this.$axios
+        .post(`/logout/${this.userDetail.id}`)
+        .then((res) => {
+          this.$refs.LoadingAlpha.show();
+          if (res.data.result) {
+            this.$store.dispatch("updateUserDetail", {});
+            if (this.timer) {
+              clearTimeout(this.timer);
+              this.timer = null;
+            }
+            this.timer = setTimeout(() => {
+              this.$refs.LoadingAlpha.hide();
+            }, 500);
+          }
+        })
+        .catch((err) => {
+          console.log("Error message => ", err);
+        });
     },
     toggleMenu() {
       const navbar = document.querySelector(".navbar");
@@ -212,13 +254,15 @@ svg {
   }
 }
 
-svg {
-  margin-right: 0.2rem;
-}
-
 @media (max-width: 390px) {
   .navbar {
     top: 10%;
   }
 }
+
+
+svg {
+  margin: 0rem 0.2rem;
+}
+
 </style>

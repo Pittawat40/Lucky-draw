@@ -8,7 +8,7 @@
             <span>Concert Name</span>
             <span><font-awesome icon="location-dot" /> Bangkok, Thailand</span>
           </div>
-          <UButton @click="$router.push({ path: `/detail/${index}` })"
+          <UButton @click="handleRoute(index)"
             >Join Now</UButton
           >
         </div>
@@ -18,8 +18,39 @@
         </div>
       </div>
     </div>
+    <ModalLogin ref="ModalLogin" />
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      userDetail: {},
+    };
+  },
+  watch: {
+    "$store.state.userDetail": function() {
+      this.setUserDetail();
+    }
+  },
+  mounted() {
+    this.setUserDetail();
+  },
+  methods: {
+    setUserDetail() {
+      this.userDetail = JSON.parse(localStorage.getItem("userDetail"))
+    },
+    handleRoute(index) {
+      if(!this.userDetail.email){
+        this.$refs.ModalLogin.show();
+      } else {
+        this.$router.push({ path: `/detail/${index}` })
+      }
+    },
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 .section {

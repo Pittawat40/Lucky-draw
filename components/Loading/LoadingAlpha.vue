@@ -32,6 +32,7 @@ export default {
   margin: auto;
   display: none;
   top: 0;
+  left: 0;
   -ms-flex-align: center !important;
   -webkit-box-align: center !important;
   align-items: center !important;

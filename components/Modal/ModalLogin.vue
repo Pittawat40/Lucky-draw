@@ -1,7 +1,7 @@
 <template>
   <UModal v-model="isOpen">
     <UCard class="modal">
-      <div class="section">
+      <div class="section" @keyup.enter="handleLogin">
         <span class="title">Login</span>
         <div class="list">
           <img src="@/assets/images/facebook.png" />
@@ -10,29 +10,73 @@
           <img src="@/assets/images/linkedin.png" />
         </div>
         <span>or use your account</span>
-        <UInput class="input" type="email" placeholder="Email" />
-        <UInput class="input" type="password" placeholder="Password" />
+        <UInput
+          class="input"
+          type="email"
+          placeholder="Email"
+          v-model="form.email"
+        />
+        <UInput
+          class="input"
+          type="password"
+          placeholder="Password"
+          v-model="form.password"
+        />
         <div class="btn">
-          <UButton>Sign in</UButton>
+          <UButton @click="handleLogin">Sign in</UButton>
           <UButton @click="isOpen = false">Close</UButton>
         </div>
       </div>
     </UCard>
   </UModal>
+  <LoadingAlpha ref="LoadingAlpha" />
 </template>
 
 <script>
+import { useStore } from "vuex";
+const store = useStore();
 export default {
   name: "ModalLogin",
   data() {
     return {
       isOpen: false,
+      timer: null,
+      form: {},
     };
   },
-  mounted() {},
+  mounted() {
+    this.resetForm();
+  },
   methods: {
+    async handleLogin() {
+      await this.$axios
+        .post(`/login`, this.form)
+        .then((res) => {
+          this.$refs.LoadingAlpha.show();
+          if (res.data.result) {
+            this.$store.dispatch("updateUserDetail", res.data.payload);
+            if (this.timer) {
+              clearTimeout(this.timer);
+              this.timer = null;
+            }
+            this.timer = setTimeout(() => {
+              this.hide();
+              this.$refs.LoadingAlpha.hide();
+            }, 500);
+          }
+        })
+        .catch((err) => {
+          console.log("Error message => ", err);
+        });
+    },
+    resetForm() {
+      this.form = {};
+    },
     show() {
       this.isOpen = true;
+    },
+    hide() {
+      this.isOpen = false;
     },
   },
 };
@@ -47,6 +91,7 @@ export default {
   .form-input {
     background: #fff !important;
     height: 3rem;
+    color: #000;
   }
 }
 
@@ -63,11 +108,11 @@ export default {
     font-size: 1.5rem;
     text-transform: uppercase;
   }
-  
+
   span {
     font-size: 1rem;
   }
-  
+
   .input {
     width: 75%;
   }

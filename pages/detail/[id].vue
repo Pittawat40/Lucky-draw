@@ -32,7 +32,7 @@
 
     <Activity />
     <LoadingAlpha ref="LoadingAlpha" />
-    <ModalAlert ref="ModalAlert" />
+    <ModalList ref="ModalList" />
   </div>
 </template>
 
@@ -42,9 +42,16 @@ export default {
   data() {
     return {
       timer: null,
+      userDetail: {}
     };
   },
+  watch: {
+    "$store.state.userDetail": function() {
+      this.setUserDetail();
+    }
+  },
   mounted() {
+    this.setUserDetail();
     this.$refs.LoadingAlpha.show();
     if (this.timer) {
       clearTimeout(this.timer);
@@ -52,21 +59,27 @@ export default {
     }
     this.timer = setTimeout(() => {
       this.$refs.LoadingAlpha.hide();
-    }, 1000);
+    }, 500);
   },
   methods: {
+    setUserDetail() {
+      this.userDetail = JSON.parse(localStorage.getItem("userDetail"))
+      if(!this.userDetail.email){
+        this.$router.push({ path: `/` })
+      }
+    },
     random() {
       this.$refs.LoadingAlpha.show();
 
       setTimeout(() => {
         this.$nextTick(() => {
           this.$refs.LoadingAlpha.hide();
-          this.$refs.ModalAlert.show();
+          this.$refs.ModalList.show();
         });
-      }, 2000);
+      }, 1500);
     },
     viewList() {
-      this.$refs.ModalAlert.show();
+      this.$refs.ModalList.show();
     },
   },
 };
