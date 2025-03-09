@@ -5,8 +5,8 @@
         <span class="title">Congreat, List of lucky winners </span>
         <div class="list">
           <div class="detail">
-            <span class="" v-for="(item, index) in 10" v-bind:key="index"
-              >{{ index + 1 }}. Name lastname</span
+            <span class="" v-for="(item, index) in list" v-bind:key="index"
+              >{{ index + 1 }}. {{ item.email }}</span
             >
           </div>
         </div>
@@ -18,6 +18,13 @@
 <script>
 export default {
   name: "ModalList",
+  props: {
+    list: {
+      require: false,
+      type: Array,
+      default: []
+    }
+  },
   data() {
     return {
       isOpen: false,

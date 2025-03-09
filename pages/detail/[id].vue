@@ -2,29 +2,33 @@
   <div class="panel">
     <div class="section">
       <span class="header">Channel</span>
-      <div class="item">
+      <div class="item" v-if="!isLoading">
         <div class="left">
           <img src="@/assets/images/poster-1.png" />
           <div class="detail">
             <div class="text">
-              <span>Concert Name</span>
+              <span>{{ activityDetail.name }}</span>
               <span>The event was held on Sat, 22 Feb 2025 14 days ago</span>
               <span
-                ><font-awesome icon="location-dot" /> Bangkok, Thailand</span
+                ><font-awesome icon="location-dot" /> {{ activityDetail.location }}</span
               >
             </div>
-            <div class="status">
-              <span>Status : Waiting to start</span>
-              <Loading />
+            <div class="status" >
+              <span :class="[ activityDetail.flag_random ? 'text-success': 'text-yellow']">
+                Status : {{ activityDetail.flag_random ? "Successfully completed" : "Waiting to start" }}
+              </span>
+              <Loading v-if="!activityDetail.flag_random" />
             </div>
           </div>
         </div>
         <div class="right">
           <span><font-awesome icon="user" /> 5,000</span>
           <div class="btn">
-            <UButton @click="viewList()">View announcement</UButton>
-            <UButton @click="random()">Random</UButton>
-            <UButton>Export</UButton>
+            <UButton v-if="activityDetail.flag_random" @click="viewList()">View announcement</UButton>
+            <template v-if="userDetail.role && userDetail.role == 'admin'">
+              <UButton @click="random()">Random</UButton>
+              <UButton>Export</UButton>
+            </template>
           </div>
         </div>
       </div>
@@ -32,7 +36,7 @@
 
     <Activity />
     <LoadingAlpha ref="LoadingAlpha" />
-    <ModalList ref="ModalList" />
+    <ModalList ref="ModalList" :list="list" />
   </div>
 </template>
 
@@ -42,7 +46,10 @@ export default {
   data() {
     return {
       timer: null,
-      userDetail: {}
+      isLoading: true,
+      userDetail: {},
+      activityDetail: {},
+      list: []
     };
   },
   watch: {
@@ -51,8 +58,9 @@ export default {
     }
   },
   mounted() {
-    this.setUserDetail();
     this.$refs.LoadingAlpha.show();
+    this.setUserDetail();
+    this.getDetail();
     if (this.timer) {
       clearTimeout(this.timer);
       this.timer = null;
@@ -68,15 +76,44 @@ export default {
         this.$router.push({ path: `/` })
       }
     },
-    random() {
-      this.$refs.LoadingAlpha.show();
-
-      setTimeout(() => {
-        this.$nextTick(() => {
-          this.$refs.LoadingAlpha.hide();
-          this.$refs.ModalList.show();
+    async getDetail() {
+      await this.$axios
+        .get(`/activity/${this.$route.params.id}`)
+        .then((res) => {
+          this.isLoading = false
+          if (res.data.result) {
+            this.activityDetail = res.data.payload
+            if (res.data.payload.userList) {
+              this.list = this.list.length ? this.list : res.data.payload.userList
+            }
+          }
+        })
+        .catch((err) => {
+          console.log("Error message => ", err);
         });
-      }, 1500);
+    },
+    async random() {
+      await this.$axios
+        .get(`/random/${this.$route.params.id}`)
+        .then((res) => {
+          this.$refs.LoadingAlpha.show();
+          if (res.data.result) {
+            this.list = res.data.payload
+            if (this.timer) {
+              clearTimeout(this.timer);
+              this.timer = null;
+            }
+
+            this.timer = setTimeout(() => {
+              this.$refs.LoadingAlpha.hide();
+              this.$refs.ModalList.show();
+              this.getDetail();
+            }, 1000);
+          }
+        })
+        .catch((err) => {
+          console.log("Error message => ", err);
+        });
     },
     viewList() {
       this.$refs.ModalList.show();
@@ -145,7 +182,6 @@ export default {
             gap: 0.5rem;
 
             span {
-              color: #d7ff36;
               text-transform: uppercase;
             }
           }
@@ -171,6 +207,14 @@ export default {
       }
     }
   }
+}
+
+.text-success {
+  color: #35e069;
+}
+
+.text-yellow {
+  color: #d7ff36;
 }
 
 img {

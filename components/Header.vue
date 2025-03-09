@@ -7,7 +7,7 @@
     <font-awesome class="mobile" id="menu-btn" icon="bars" />
     <div class="right">
       <div class="serach">
-        <UInput class="input" type="text" placeholder="Search" />
+        <UInput class="input" type="text" placeholder="Search" v-model="search" />
         <font-awesome icon="magnifying-glass" />
       </div>
       <a v-if="!userDetail.email" @click="handleLogin()">Login</a>
@@ -49,6 +49,7 @@ export default {
   name: "Header",
   data() {
     return {
+      search: "",
       isOpen: false,
       timer: null,
       userDetail: {}

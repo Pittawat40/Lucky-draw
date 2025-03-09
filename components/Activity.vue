@@ -2,13 +2,13 @@
   <div class="section">
     <span class="header">Activity</span>
     <div class="list">
-      <div class="item" v-for="(item, index) in 8" v-bind:key="index">
+      <div class="item" v-for="(item, index) in list" v-bind:key="index">
         <div class="left">
           <div class="text">
-            <span>Concert Name</span>
-            <span><font-awesome icon="location-dot" /> Bangkok, Thailand</span>
+            <span>{{ item.name }}</span>
+            <span><font-awesome icon="location-dot" /> {{ item.location }}</span>
           </div>
-          <UButton @click="handleRoute(index)"
+          <UButton @click="handleRoute(item.id)"
             >Join Now</UButton
           >
         </div>
@@ -27,6 +27,7 @@ export default {
   data() {
     return {
       userDetail: {},
+      list: []
     };
   },
   watch: {
@@ -35,17 +36,30 @@ export default {
     }
   },
   mounted() {
+    this.getList();
     this.setUserDetail();
   },
   methods: {
+    async getList() {
+      await this.$axios
+        .get(`/activity`)
+        .then((res) => {
+          if (res.data.result) {
+            this.list = res.data.payload
+          }
+        })
+        .catch((err) => {
+          console.log("Error message => ", err);
+        });
+    },
     setUserDetail() {
       this.userDetail = JSON.parse(localStorage.getItem("userDetail"))
     },
-    handleRoute(index) {
+    handleRoute(id) {
       if(!this.userDetail.email){
         this.$refs.ModalLogin.show();
       } else {
-        this.$router.push({ path: `/detail/${index}` })
+        this.$router.push({ path: `/detail/${id}` })
       }
     },
   },
@@ -76,12 +90,13 @@ export default {
       padding: 1rem;
       border-radius: 0.4rem;
       border: none;
-      width: 20rem;
+      width: 320px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       box-shadow: 0 3px 8px rgba(0, 0, 0, 0.24);
       background: #fff;
+      gap: 0.5rem;
 
       .left {
         display: flex;
@@ -102,12 +117,18 @@ export default {
           }
 
           span {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
             font-size: 0.8rem;
           }
         }
       }
 
       .right {
+        width: 100px;
         background: #fff;
         border: 1px solid #8d4fab;
         border-radius: 0.2rem;
