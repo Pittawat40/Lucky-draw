@@ -77,7 +77,7 @@
       }
 
       .right {
-        background: #8d4fab;
+        background: #fff;
         border: 1px solid #8d4fab;
         border-radius: 0.2rem;
         padding: 1rem 2rem;
@@ -89,7 +89,7 @@
 
         span {
           background: transparent;
-          color: #fff;
+          color: #000;
         }
 
         span:first-child {
@@ -127,8 +127,13 @@ svg {
 }
 
 @media (max-width: 430px) {
+  .list {
+    max-height: 320px;
+    overflow: auto;
+  }
+
   .item {
-    width: 23rem !important;
+    width: 24rem !important;
   }
 }
 </style>

@@ -22,8 +22,8 @@
         <div class="right">
           <span><font-awesome icon="user" /> 5,000</span>
           <div class="btn">
-            <UButton>View announcement</UButton>
-            <UButton>Random</UButton>
+            <UButton @click="viewList()">View announcement</UButton>
+            <UButton @click="random()">Random</UButton>
             <UButton>Export</UButton>
           </div>
         </div>
@@ -31,8 +31,46 @@
     </div>
 
     <Activity />
+    <LoadingAlpha ref="LoadingAlpha" />
+    <ModalAlert ref="ModalAlert" />
   </div>
 </template>
+
+<script>
+export default {
+  name: "detail",
+  data() {
+    return {
+      timer: null,
+    };
+  },
+  mounted() {
+    this.$refs.LoadingAlpha.show();
+    if (this.timer) {
+      clearTimeout(this.timer);
+      this.timer = null;
+    }
+    this.timer = setTimeout(() => {
+      this.$refs.LoadingAlpha.hide();
+    }, 1000);
+  },
+  methods: {
+    random() {
+      this.$refs.LoadingAlpha.show();
+
+      setTimeout(() => {
+        this.$nextTick(() => {
+          this.$refs.LoadingAlpha.hide();
+          this.$refs.ModalAlert.show();
+        });
+      }, 2000);
+    },
+    viewList() {
+      this.$refs.ModalAlert.show();
+    },
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 .panel {
@@ -109,6 +147,7 @@
 
         .btn {
           display: flex;
+          width: max-content;
           gap: 0.5rem;
         }
 
@@ -134,7 +173,23 @@ svg {
   margin-right: 0.2rem;
 }
 
+@media (max-width: 820px) {
+  img {
+    max-height: 200px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  img {
+    max-height: 180px !important;
+  }
+}
+
 @media (max-width: 430px) {
+  .section {
+    padding: 2rem 1rem 1rem 1rem !important;
+  }
+
   .item {
     padding: 2rem !important;
     flex-direction: column !important;
@@ -157,12 +212,6 @@ svg {
 
   img {
     max-height: 300px !important;
-  }
-}
-
-@media (max-width: 390px) {
-  .section {
-    padding: 2rem 1rem 1rem 1rem !important;
   }
 }
 </style>

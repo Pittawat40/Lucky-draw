@@ -6,7 +6,10 @@
     </div>
     <font-awesome class="mobile" id="menu-btn" icon="bars" />
     <div class="right">
-      <font-awesome icon="magnifying-glass" />
+      <div class="serach">
+        <UInput class="input" type="text" placeholder="Search" />
+        <font-awesome icon="magnifying-glass" />
+      </div>
       <a @click="openModal()">Login</a>
       <div class="lang">
         <a href="">
@@ -63,6 +66,25 @@ export default {
   display: none;
 }
 
+::v-deep {
+  .form-input {
+    background: #fff !important;
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 180px;
+    outline: none;
+    color: #000;
+    transition: 0.5s ease-in-out;
+  }
+
+  .form-input:focus {
+    width: 250px;
+    top: 0;
+    right: 100%;
+  }
+}
+
 .lang {
   display: flex;
   justify-content: center;
@@ -84,7 +106,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 1.5rem 3rem;
+  padding: 1.5rem 2rem;
   background: #fff;
   z-index: 1000;
 
@@ -120,6 +142,13 @@ export default {
     align-items: center;
     gap: 2rem;
     background: transparent;
+
+    .serach {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+    }
   }
 }
 
@@ -132,6 +161,12 @@ svg {
   color: #000;
   background: none !important;
   cursor: pointer;
+}
+
+@media (max-width: 820px) {
+  .section {
+    padding: 1.5rem;
+  }
 }
 
 @media (max-width: 430px) {
@@ -179,5 +214,11 @@ svg {
 
 svg {
   margin-right: 0.2rem;
+}
+
+@media (max-width: 390px) {
+  .navbar {
+    top: 10%;
+  }
 }
 </style>

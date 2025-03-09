@@ -1,5 +1,5 @@
 <template>
-  <UModal v-model="isOpen" class="b">
+  <UModal v-model="isOpen">
     <UCard class="modal">
       <div class="section">
         <span class="title">Login</span>
@@ -63,9 +63,11 @@ export default {
     font-size: 1.5rem;
     text-transform: uppercase;
   }
+  
   span {
     font-size: 1rem;
   }
+  
   .input {
     width: 75%;
   }

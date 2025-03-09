@@ -32,7 +32,7 @@ svg {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 3rem;
+  padding: 2rem;
   background: #fff;
   z-index: 1000;
 
