@@ -16,10 +16,10 @@
         <font-awesome icon="right-from-bracket" @click="handleLogout()" />
       </template>
       <div class="lang">
-        <a href="">
+        <a>
           <img src="@/assets/images/thailand.svg" />
         </a>
-        <a href="">
+        <a>
           <img src="@/assets/images/eng.png" />
         </a>
       </div>
@@ -31,10 +31,10 @@
         <a @click="handleLogout()">Logout</a>
       </template>
       <div class="lang">
-        <a href="">
+        <a>
           <img src="@/assets/images/thailand.svg" />
         </a>
-        <a href="">
+        <a>
           <img src="@/assets/images/eng.png" />
         </a>
       </div>

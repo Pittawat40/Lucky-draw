@@ -30,17 +30,19 @@
     </UCard>
   </UModal>
   <LoadingAlpha ref="LoadingAlpha" />
+  <ModalAlertError ref="ModalAlertError" :text="text" />
 </template>
 
 <script>
-import { useStore } from "vuex";
-const store = useStore();
+// import { useStore } from "vuex";
+// const store = useStore();
 export default {
   name: "ModalLogin",
   data() {
     return {
       isOpen: false,
       timer: null,
+      text: "",
       form: {},
     };
   },
@@ -63,6 +65,10 @@ export default {
               this.hide();
               this.$refs.LoadingAlpha.hide();
             }, 500);
+          } else {
+            this.text = res.data.message
+            this.$refs.LoadingAlpha.hide();
+            this.$refs.ModalAlertError.show()
           }
         })
         .catch((err) => {
