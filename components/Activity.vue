@@ -165,31 +165,13 @@ svg {
 }
 
 @media (max-width: 430px) {
+  .section {
+    padding: 1rem !important;
+  }
+
   .list {
     max-height: 300px;
     overflow: auto;
-  }
-
-  .item {
-    width: 24rem !important;
-  }
-}
-
-@media (max-width: 390px) {
-  .item {
-    width: 22rem !important;
-  }
-}
-
-@media (max-width: 375px) {
-  .item {
-    width: 21rem !important;
-  }
-}
-
-@media (max-width: 360px) {
-  .item {
-    width: 20rem !important;
   }
 }
 </style>

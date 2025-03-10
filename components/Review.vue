@@ -118,6 +118,10 @@
   }
   
   @media (max-width: 430px) {
+    .section {
+        padding: 1rem !important;
+    }
+
     .review {
         overflow: auto;
         max-height: 320px;
