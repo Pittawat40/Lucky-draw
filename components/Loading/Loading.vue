@@ -11,6 +11,7 @@
   border: 2px solid;
   position: relative;
 }
+
 .loader::before {
   content: "";
   position: absolute;
@@ -20,9 +21,17 @@
   background: #d7ff36;
   animation: l6 2s infinite;
 }
+
 @keyframes l6 {
   100% {
     inset: 0;
   }
 }
+
+@media (max-width: 430px) {
+  .loader{
+    width: 100%;
+  }
+}
+
 </style>

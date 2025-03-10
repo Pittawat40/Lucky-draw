@@ -78,11 +78,9 @@ export default {
   }
 
   .list {
-    align-items: center;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    justify-content: flex-start;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    gap: 1.5rem;
     margin-top: 1rem;
 
     .item {
@@ -90,7 +88,7 @@ export default {
       padding: 1rem;
       border-radius: 0.4rem;
       border: none;
-      width: 320px;
+      width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -166,26 +164,32 @@ svg {
   margin-right: 0.2rem;
 }
 
-@media (max-width: 820px) {
-  .item {
-    width: 22.5rem !important;
-  }
-}
-
-@media (max-width: 768px) {
-  .item {
-    width: 21rem !important;
-  }
-}
-
 @media (max-width: 430px) {
   .list {
-    max-height: 320px;
+    max-height: 300px;
     overflow: auto;
   }
 
   .item {
     width: 24rem !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .item {
+    width: 22rem !important;
+  }
+}
+
+@media (max-width: 375px) {
+  .item {
+    width: 21rem !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .item {
+    width: 20rem !important;
   }
 }
 </style>

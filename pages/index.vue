@@ -2,6 +2,7 @@
   <div class="panel">
     <Banner />
     <Activity />
+    <Review />
   </div>
 </template>
 

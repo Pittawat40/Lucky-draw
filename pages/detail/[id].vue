@@ -33,7 +33,6 @@
         </div>
       </div>
     </div>
-
     <Activity />
     <LoadingAlpha ref="LoadingAlpha" />
     <ModalList ref="ModalList" :list="list" />
@@ -185,6 +184,7 @@ export default {
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
+            width: 100%;
 
             span {
               text-transform: uppercase;
@@ -206,6 +206,9 @@ export default {
         }
 
         span {
+          border: 2px solid;
+          border-radius: 10px;
+          padding: 0.8rem;
           color: #fff;
           font-size: 1.5rem;
         }
@@ -244,6 +247,13 @@ svg {
 @media (max-width: 768px) {
   img {
     max-height: 180px !important;
+  }
+
+  .right {
+    span {
+      padding: 0.5rem !important;
+      font-size: 1rem !important;
+    }
   }
 }
 
