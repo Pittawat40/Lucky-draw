@@ -10,13 +10,21 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@nuxt/icon": "^1.5.1",
+    "@nuxt/http": "^0.6.4",
+    "@nuxt/ui": "^2.21.0",
     "@nuxtjs/google-fonts": "^3.2.0",
+    "@vesp/nuxt-fontawesome": "^1.2.1",
+    "axios": "^1.8.2",
+    "exceljs": "^4.4.0",
     "nuxt": "^3.13.0",
     "vue": "latest",
-    "vue-router": "latest"
+    "vue-router": "latest",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
+    "@fortawesome/free-brands-svg-icons": "^6.7.2",
+    "@fortawesome/free-regular-svg-icons": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "node-sass": "^9.0.0",
     "sass": "^1.78.0",
     "sass-loader": "^16.0.1"

@@ -1,6 +1,8 @@
 <template>
-  <div class="panel">
+  <div>
     <Header />
-    <Banner />
+    <NuxtPage />
+    <Footer />
   </div>
 </template>
+
