@@ -56,7 +56,7 @@ export default {
       this.userDetail = JSON.parse(localStorage.getItem("userDetail"))
     },
     handleRoute(id) {
-      if(!this.userDetail.name){
+      if(!this.userDetail){
         this.$refs.ModalLogin.show();
       } else {
         this.$router.push({ path: `/detail/${id}` })
